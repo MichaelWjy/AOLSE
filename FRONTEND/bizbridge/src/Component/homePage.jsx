@@ -1,30 +1,15 @@
 import React from "react";
 import Slider from "react-slick"; 
-import styles from "./HomePage.module.css";
+import styles from "./Css/HomePage.module.css";
 import CarouselSetting from "./CarouselSetting"
+import Navbar from "./Navbar.jsx"
+import Footer from "./Footer.jsx";
 
 
 export default function HomePage() {
 return (
     <div className={styles.container}>
-        <header className={styles.navbar}>
-            <div className={styles.logoSection}>
-                <img src="/logoPutih.png" alt="BizBridge Logo" className={styles.logo} />
-                <span className={styles.logoText}>BIZBRIDGE</span>
-            </div>
-            <input
-                type="search"
-                placeholder="Search companies or products here..."
-                className={styles.searchInput}
-                
-            />
-            <nav className={styles.navLinks}>
-                <a href="#">Home</a>
-                <a href="#">Company</a>
-                <a href="#">Manage</a>
-                <a href="#">Account</a>
-            </nav>
-        </header>
+        <Navbar />
         <section className={styles.carouselSection}>
             <Slider {...CarouselSetting}>
                 <div>
@@ -78,26 +63,7 @@ return (
                 <button className={styles.button}>Check It Out!</button>
             </div>
         </section>
-        <footer className={styles.footer}>
-            <div className={styles.footerTop}>
-                <div className={styles.logoSection}>
-                    <img src="/logoPutih.png" alt="Logo" className={styles.logoFooter} />
-                    <img src="/garisFooter.png" alt="line" className={styles.line} />
-                </div>
-                <div className={styles.footerInfo}>
-                    <div className={styles.contact}>
-                        <a href=""><img src="IGlogo.png" alt="" /> BizBridgeCorp</a>
-                    </div>
-                    <div className={styles.contact}>
-                        <a href=""><img src="facebookLogo.png" alt="" /> info@bizbridge.com</a>
-                    </div>
-                    <div className={styles.contact}>
-                        <a href=""><img src="emailLogo.png" alt="" /> www.bizbridgeglobal.com</a>
-                    </div>
-                </div>
-            </div>
-            <div className={styles.footerBottom}>© 2025 BizBridgeCorp. All rights reserved.</div>
-        </footer>
+        <Footer />
     </div>
 );
 }

@@ -1,0 +1,117 @@
+.container{
+    font-family: 'Inria Serif', serif;
+    color: #2d3748;
+    margin: 0%;
+    padding: 0%;
+}
+
+.carouselSection {
+    width: 100%;
+    left: 50%;
+    position: absolute;
+    max-width: 50%;
+    max-height: 740px;
+}
+
+.carouselImage {
+    width: 100%;
+    max-height: 740px;
+    object-fit: cover;
+}
+
+.formSection{
+    padding: 3%;
+}
+
+.formSection img{
+    margin: 2% 0%;
+}
+
+.formSection h1{
+    margin: 0%;
+    font-size: 40px
+}
+
+.formSection p{
+    font-size: 20px;
+    margin: 0%;
+    padding-bottom: 40px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    /* margin-bottom: 5%; */
+}
+
+input{
+    border: 1px solid #ccc;
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 7px;
+    margin: 10px 0px;
+    padding: 4px 12px;
+    width: 418px;
+    height: 40px;
+}
+.loginInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.loginInfo input{
+    margin: 0;
+    width: 15px;
+    background-color: rgba(244, 244, 244, 1);
+}
+
+.loginInfo a{
+    text-decoration: none;
+    margin: 0% 14%;
+    color: rgba(10, 113, 216, 1);
+}
+
+.remember{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.remember p{
+    padding: 0% 2px;
+    font-size: 14px;
+}
+
+.loginButton button{
+    color: white;
+    background-color: rgba(9, 66, 51, 1);
+    font-size: 24px;
+    border: #14171d;
+    width: 250px;
+    border-radius: 20PX;
+    padding: 10px 12px;
+    margin: 15px 7%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.loginButton button:hover{
+    color: rgba(9, 66, 51, 1);
+    background-color: rgba(228, 226, 222, 1);
+}
+
+.noAcc{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.noAcc p{
+    color: rgba(127, 123, 123, 1);
+    font-size: 14px;
+}
+.noAcc a{
+    font-size: 14px;
+    text-decoration: none;
+    color: rgba(10, 113, 216, 1);
+}

@@ -1,0 +1,53 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background:rgba(9, 66, 51, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    height: 80px;
+}
+
+.logoText {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.searchInput {
+    border: 1px solid #ccc;
+    border-radius: 100px;
+    padding: 4px 12px;
+    width: 654px;
+    height: 37px;
+}
+.searchInput::placeholder {
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+}
+
+.navLinks {
+    display: flex;
+    font-size: 22px;
+    gap: 24px;
+    color: white;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.navLinks a:hover {
+    color: rgba(252, 204, 98, 1);
+}

@@ -1,0 +1,65 @@
+
+.footer {
+    background: #22543d;
+    color: white;
+    padding: 24px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.line{
+    height: 240px;
+}
+
+.logoSection{
+    gap: 100px;
+    
+}
+
+.contact {
+    display: flex; 
+    align-items: center; 
+    gap: 16px; 
+    margin-bottom: 12px; 
+}
+
+.contact img {
+    width: 25px; 
+    height: 25px; 
+}
+
+.contact a {
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: white; 
+    font-size: 18px; 
+    gap: 10px; 
+}
+
+.footerTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 180px; 
+    
+}
+
+.footerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 18px;
+    text-align: left;
+}
+
+.footerBottom {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 24px;
+}
+.logoFooter{
+    width: 300px;
+}
