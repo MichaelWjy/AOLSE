@@ -1,0 +1,188 @@
+.container {
+    font-family: 'Inria Serif', serif;
+    color: #2d3748;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background:rgba(9, 66, 51, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    height: 80px;
+}
+
+.logoText {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.searchInput {
+    border: 1px solid #ccc;
+    border-radius: 100px;
+    padding: 4px 12px;
+    width: 654px;
+    height: 37px;
+}
+.searchInput::placeholder {
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+}
+
+.navLinks {
+    display: flex;
+    font-size: 22px;
+    gap: 24px;
+    color: white;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.navLinks a:hover {
+    color: rgba(252, 204, 98, 1);
+}
+
+.carouselSection {
+    width: 100%;
+    /* max-width: 95%; */
+    margin: 0 auto;
+}
+
+.carouselImage {
+    width: 100%;
+    object-fit: cover;
+}
+
+.section {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    padding: 40px;
+    align-items: center;
+}
+
+.desc{
+    font-size: 26px;
+}
+
+.image{
+    width: 100%;
+    max-width: 30%;
+}
+
+.greenBackground {
+    background: rgba(9, 66, 51, 1);
+}
+.heading {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.headingKanan {
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.descKanan{
+    color: white;
+    font-size: 26px;
+}
+
+.button {
+    margin-top: 16px;
+    font-size: 20px;
+    padding: 20px 70px;
+    background: #094233;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.button:hover {
+    background: #276749;
+}
+
+.footer {
+    background: #22543d;
+    color: white;
+    padding: 24px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.line{
+    height: 240px;
+}
+
+.logoSection{
+    gap: 100px;
+    
+}
+
+.contact {
+    display: flex; 
+    align-items: center; 
+    gap: 16px; 
+    margin-bottom: 12px; 
+}
+
+.contact img {
+    width: 25px; 
+    height: 25px; 
+}
+
+.contact a {
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: white; 
+    font-size: 18px; 
+    gap: 10px; 
+}
+
+.footerTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 180px; 
+    
+}
+
+.footerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 18px;
+    text-align: left;
+}
+
+.footerBottom {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 24px;
+}
+.logoFooter{
+    width: 300px;
+}
