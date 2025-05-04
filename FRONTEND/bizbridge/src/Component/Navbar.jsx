@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Css/Navbar.module.css"
 
-function Navbar() {
+export default function Navbar() {
     return (
         <header className={styles.navbar}>
             <div className={styles.logoSection}>
@@ -24,4 +24,3 @@ function Navbar() {
     );
 }
 
-export default Navbar;
