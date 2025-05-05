@@ -1,10 +1,9 @@
 import React from "react";
 import Slider from "react-slick"; 
-import styles from "./Css/HomePage.module.css";
-import CarouselSetting from "./CarouselSetting"
-import Navbar from "./Navbar.jsx"
-import Footer from "./Footer.jsx";
-
+import styles from "../Css/HomePage.module.css";
+import CarouselSetting from "../CarouselSetting"
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function HomePage() {
 return (

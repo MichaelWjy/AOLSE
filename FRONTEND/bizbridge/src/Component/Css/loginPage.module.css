@@ -7,9 +7,7 @@
     display: flex;
     flex-direction: row-reverse;
 }
-.SliderSet {
-    display: flex;
-}
+
 .carouselSection {
     width: 100%;
     /* left: 50%; */

@@ -1,0 +1,41 @@
+
+
+.formSection{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formSection img{
+    width: 150px;
+}
+
+.formSection h1{
+    font-size: 40px;
+    margin: 15px 0px;
+}
+
+.forgotButton{
+    display: flex;
+    justify-content: center;
+}
+
+
+.forgotButton button{
+    color: white;
+    background-color: rgba(9, 66, 51, 1);
+    font-size: 24px;
+    border: #14171d;
+    width: 250px;
+    border-radius: 20PX;
+    padding: 10px 0px;
+    margin: 15px 70PX;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.forgotButton button:hover{
+    color: rgba(9, 66, 51, 1);
+    background-color: rgba(228, 226, 222, 1);
+}
+

@@ -1,7 +1,7 @@
 import React from "react";
-import carouselSettings from "./LoginCarouselSetting";
+import carouselSettings from "../LoginCarouselSetting";
 import Slider from "react-slick";
-import styles from "./Css/loginPage.module.css"
+import styles from "../Css/loginPage.module.css"
 import { Link } from "react-router-dom";
 
 export default function Login(){
@@ -34,16 +34,15 @@ export default function Login(){
                         <input type="checkbox"/>
                         <p>Remember Me</p>
                     </div>
-                    <a href="">Forgot Password?</a>
+                    <Link to="/forgot">Forgot password?</Link>
                 </div>
                 <div className={styles.loginButton}>
                     <Link to="/home"><button>Login</button></Link>
                     <div className={styles.noAcc}>
-                    <p>Don’t have an account? <Link to="#">Click Here</Link></p>
+                    <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
                         {/* <p>Don’t have an account? <a href="homePage.jsx">Click Here</a></p> */}
                     </div>
                 </div>
-
             </section>
         </div>
         
