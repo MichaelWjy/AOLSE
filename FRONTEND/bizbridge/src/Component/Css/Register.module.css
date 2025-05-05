@@ -1,0 +1,102 @@
+.container{
+    font-family: 'Inria Serif', serif;
+    overflow: hidden;
+    color: #2d3748;
+    margin: 0%;
+    padding: 0%;
+    display: flex;
+    flex-direction: row;
+}
+
+.formSection{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 3%;
+    width: 50%;
+    padding: 10px;
+}
+
+.formSection img{
+    margin: 2% 0%;
+}
+
+.formSection h1{
+    margin: 0%;
+    font-size: 40px
+}
+
+.registerForm{
+    display: flex;
+    flex-direction: column;
+    padding: 3% 0%;
+}
+
+input{
+    border: 1px solid #ccc;
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 7px;
+    margin: 10px 0px;
+    padding: 4px 12px;
+    width: 418px;
+    height: 40px;
+}
+
+input[type="radio"]{
+    width: 2%;
+    margin: 0px 5px;
+}
+
+p{
+    margin: 0%;
+}
+
+.roleRadio{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.CountryPick{
+    border: 1px solid #ccc;
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 7px;
+    margin: 10px 0px;
+    padding: 4px 12px;
+    width: 445px;
+    height: 40px;
+}
+
+input[type="checkbox"]{
+    width: 15px;
+    background-color: rgba(244, 244, 244, 1);
+
+}
+
+.tnc{
+        display: flex;
+        flex-direction: row;
+        align-items: center;    
+}
+
+.tncLink{
+    text-decoration: none;
+    color: #2d3748;
+    margin: 0px 5px;
+}
+
+.createButton button{
+    color: white;
+    background-color: rgba(9, 66, 51, 1);
+    font-size: 24px;
+    border: #14171d;
+    width: 250px;
+    border-radius: 20PX;
+    padding: 10px 0px;
+    margin: 15px 70PX;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.createButton button:hover{
+    color: rgba(9, 66, 51, 1);
+    background-color: rgba(228, 226, 222, 1);
+}
