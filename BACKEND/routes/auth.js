@@ -34,7 +34,7 @@ try {
             [username, email, hashedPassword, companyName, companyAddress]
         );
     }else if(role === "buyer") {
-            await pool.query(
+            const customerResult=await pool.query(
             `INSERT INTO customer (customername, customeremail, customerpassword, customercountry)
             VALUES ($1, $2, $3, $4)`,
             [username, email, hashedPassword, country]
@@ -49,7 +49,6 @@ try {
                 [customerId, sectorId]
             );
         }
-
     }else{
         return res.status(400).json({ error: "Invalid role" });
     }
