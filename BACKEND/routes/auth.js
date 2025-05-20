@@ -204,7 +204,7 @@ router.post("/logout", (req, res) => {
 });
 
 
-router.get("/me", authenticateToken, async (req, res) => {
+router.get("/me", verifyToken, async (req, res) => {
     const customerId = req.user.id;
     const result = await pool.query(
         "SELECT CustomerDescription, CustomerSector, CustomerPhotoURL FROM Customer WHERE CustomerID = $1",
@@ -213,7 +213,7 @@ router.get("/me", authenticateToken, async (req, res) => {
     res.json(result.rows[0]);
 });
 
-router.put("/update", authenticateToken, async (req, res) => {
+router.put("/update", verifyToken, async (req, res) => {
     const customerId = req.user.id;
     const { CustomerDescription, CustomerSector, CustomerPhotoURL } = req.body;
 
