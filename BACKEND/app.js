@@ -12,7 +12,7 @@ var usersRouter = require('./routes/users');
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3001',  // ganti dengan alamat frontend kamu
+    origin: 'https://bizbridge-plum.vercel.app/',  // ganti dengan alamat frontend kamu
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,  
 }));
