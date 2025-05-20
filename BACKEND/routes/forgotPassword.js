@@ -11,26 +11,24 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-// Fungsi untuk kirim email reset password
 async function sendResetEmail(email, token) {
-  // Konfigurasi transporter (gunakan email valid dari ENV)
+//     const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_HOST,      
+//     port: parseInt(process.env.EMAIL_PORT),  
+//     auth: {
+//         user: process.env.EMAIL_USER,   
+//         pass: process.env.EMAIL_PASS,     
+//     },
+// });
     const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,       // contoh: 'sandbox.smtp.mailtrap.io'
-    port: parseInt(process.env.EMAIL_PORT),  // contoh: 2525
+    service: "gmail",
     auth: {
-        user: process.env.EMAIL_USER,     // user Mailtrap kamu
-        pass: process.env.EMAIL_PASS,     // password Mailtrap kamu
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
     },
-});
-    // const transporter = nodemailer.createTransport({
-    // service: "gmail",
-    // auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS,
-    // },
-    // });
+    });
 
-    const resetLink = `http://localhost:3001/reset-password/${token}`;
+    const resetLink = `https://bizbridge-plum.vercel.app/reset-password/${token}`;
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
@@ -45,7 +43,6 @@ async function sendResetEmail(email, token) {
     await transporter.sendMail(mailOptions);
 }
 
-// Route forgot password
 router.post("/request-reset-password", async (req, res) => {
     const { email } = req.body;
 
@@ -74,7 +71,6 @@ router.post("/request-reset-password", async (req, res) => {
     }
 
     if (!user) {
-      // Untuk keamanan, jangan kasih tau user tidak ada
         return res
             .status(200)
             .json({
