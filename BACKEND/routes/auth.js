@@ -144,51 +144,51 @@ function verifyToken(req, res, next) {
 }
 
 // 🛡 Contoh route protected
-router.get("/profile", verifyToken, async (req, res) => {
-    const role = req.user.role; // dari payload JWT
-    const id = req.user.id;
+// router.get("/profile", verifyToken, async (req, res) => {
+//     const role = req.user.role; // dari payload JWT
+//     const id = req.user.id;
 
-    try {
-        let result;
-        let sectorResult;
-        if (role === "buyer") {
-            result = await pool.query(
-                "SELECT customername AS username, customercountry AS country, customerdescription AS description, customerphotourl AS photoURL FROM Customer WHERE CustomerID = $1",
-                [id]
-            );
-            sectorResult = await pool.query(
-                `SELECT s.name FROM buyer_sectors bs JOIN sectors s ON bs.sector_id = s.id WHERE bs.buyer_id = $1`,
-                [id]
-            );
-        } else if (role === "seller") {
-            result = await pool.query(
-                "SELECT companyname as username, companyaddress AS country, companydescription AS description, companyphotourl AS photoURL FROM Company WHERE CompanyID = $1",
-                [id]
-            );
-            sectorResult = await pool.query(
-                `SELECT s.name FROM seller_sectors ss JOIN sectors s ON ss.sector_id = s.id WHERE ss.seller_id = $1`,
-                [id]
-            );
-        } else {
-            return res.status(400).json({ error: "Invalid role" });
-        }
+//     try {
+//         let result;
+//         let sectorResult;
+//         if (role === "buyer") {
+//             result = await pool.query(
+//                 "SELECT customername AS username, customercountry AS country, customerdescription AS description, customerphotourl AS photoURL FROM Customer WHERE CustomerID = $1",
+//                 [id]
+//             );
+//             sectorResult = await pool.query(
+//                 `SELECT s.name FROM buyer_sectors bs JOIN sectors s ON bs.sector_id = s.id WHERE bs.buyer_id = $1`,
+//                 [id]
+//             );
+//         } else if (role === "seller") {
+//             result = await pool.query(
+//                 "SELECT companyname as username, companyaddress AS country, companydescription AS description, companyphotourl AS photoURL FROM Company WHERE CompanyID = $1",
+//                 [id]
+//             );
+//             sectorResult = await pool.query(
+//                 `SELECT s.name FROM seller_sectors ss JOIN sectors s ON ss.sector_id = s.id WHERE ss.seller_id = $1`,
+//                 [id]
+//             );
+//         } else {
+//             return res.status(400).json({ error: "Invalid role" });
+//         }
 
-        if (!result.rows.length) {
-            return res.status(404).json({ error: "User not found" });
-        }
-        const profile = result.rows[0];
-        const sectors = sectorResult.rows.map(row => row.name);
+//         if (!result.rows.length) {
+//             return res.status(404).json({ error: "User not found" });
+//         }
+//         const profile = result.rows[0];
+//         const sectors = sectorResult.rows.map(row => row.name);
 
-        res.json({
-            ...profile,
-            sectors: sectors
-        });
+//         res.json({
+//             ...profile,
+//             sectors: sectors
+//         });
 
-    } catch (err) {
-        console.error("Error fetching profile:", err);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
+//     } catch (err) {
+//         console.error("Error fetching profile:", err);
+//         res.status(500).json({ error: "Internal server error" });
+//     }
+// });
 
 
 

@@ -7,6 +7,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const forgotPass = require('./routes/forgotPassword')
 const sector = require('./routes/sector')
+const profileRoutes = require('./routes/profile')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -38,6 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/api/profile", profileRoutes);
 app.use("/api/sector", sector);
 app.use("/api/forgotPass", forgotPass);
 app.use('/api/auth',authRoutes)

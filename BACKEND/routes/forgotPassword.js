@@ -71,12 +71,8 @@ router.post("/request-reset-password", async (req, res) => {
     }
 
     if (!user) {
-        return res
-            .status(200)
-            .json({
-                message: "If email is registered, you will receive a reset link.",
-            });
-        }
+        return res.status(404).json({ error: "Email tidak ditemukan" });
+    }
 
     const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); 
