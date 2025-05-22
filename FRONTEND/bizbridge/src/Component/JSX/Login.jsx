@@ -1,10 +1,69 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import carouselSettings from "../LoginCarouselSetting";
 import Slider from "react-slick";
 import styles from "../Css/loginPage.module.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login(){
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        try {
+            const decoded = jwtDecode(token);
+            const now = Date.now() / 1000; // waktu sekarang dalam detik
+            if(decoded.exp > now){
+              // Token masih valid, langsung redirect
+                navigate("/home");
+            }else{
+              // Token expired, hapus
+                localStorage.removeItem("token");
+            }
+        }catch (e) {
+        // Kalau token tidak valid, hapus juga
+            localStorage.removeItem("token");
+        }
+    }
+    }, [navigate]);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError(null);
+
+        try {
+            const response = await fetch("https://aolse-production.up.railway.app/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+               localStorage.setItem("token", data.token);     // <-- penting
+                localStorage.setItem("role", data.user.role); 
+                localStorage.setItem("userID", data.user.id);
+                navigate("/home");
+            } else {
+                setError(data.message || "Login failed");
+            }
+        } catch (err) {
+            setError("Server error");
+            console.error("Login error:", err);
+        }
+    };
+
+    
     return(
         <div className={styles.container}>
             <section className={styles.carouselSection}>
@@ -25,10 +84,13 @@ export default function Login(){
                 <img src="/logoHitam.png" alt="" />
                 <h1>Log in to your Account</h1>
                 <p>Welcome back! Select method to log in:</p>
-                <form action="">
-                    <input type="text" placeholder="Username" />
-                    <input type="password" placeholder="Password" />
+                <form onSubmit={handleLogin}>
+                    <input type="text" placeholder="Username" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                    <button type="submit">Login</button>
                 </form>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+
                 <div className={styles.loginInfo}>
                     <div className={styles.remember}>
                         <input type="checkbox"/>
@@ -37,7 +99,6 @@ export default function Login(){
                     <Link to="/forgot">Forgot password?</Link>
                 </div>
                 <div className={styles.loginButton}>
-                    <Link to="/home"><button>Login</button></Link>
                     <div className={styles.noAcc}>
                     <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
                         {/* <p>Don’t have an account? <a href="homePage.jsx">Click Here</a></p> */}
@@ -45,6 +106,6 @@ export default function Login(){
                 </div>
             </section>
         </div>
-        
-    );
+        
+    );
 }
