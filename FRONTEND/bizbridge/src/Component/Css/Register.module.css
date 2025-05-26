@@ -1,4 +1,4 @@
-.container{
+.container {
     font-family: 'Inria Serif', serif;
     overflow: hidden;
     color: #2d3748;
@@ -8,7 +8,7 @@
     flex-direction: row;
 }
 
-.formSection{
+.formSection {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 3%;
@@ -16,22 +16,22 @@
     padding: 10px;
 }
 
-.formSection img{
+.formSection img {
     margin: 2% 0%;
 }
 
-.formSection h1{
+.formSection h1 {
     margin: 0%;
     font-size: 40px
 }
 
-.registerForm{
+.registerForm {
     display: flex;
     flex-direction: column;
     padding: 3% 0%;
 }
 
-input{
+input {
     border: 1px solid #ccc;
     background-color: rgba(244, 244, 244, 1);
     border-radius: 7px;
@@ -41,22 +41,26 @@ input{
     height: 40px;
 }
 
-input[type="radio"]{
+input[type="radio"] {
     width: 2%;
     margin: 0px 5px;
 }
 
-p{
+p {
     margin: 0%;
 }
 
-.roleRadio{
+.roleRadio {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.CountryPick{
+.sectorSelect {
+    width: 450px;
+}
+
+.CountryPick {
     border: 1px solid #ccc;
     background-color: rgba(244, 244, 244, 1);
     border-radius: 7px;
@@ -66,25 +70,25 @@ p{
     height: 40px;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
     width: 15px;
     background-color: rgba(244, 244, 244, 1);
 
 }
 
-.tnc{
-        display: flex;
-        flex-direction: row;
-        align-items: center;    
+.tnc {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.tncLink{
+.tncLink {
     text-decoration: none;
     color: #2d3748;
     margin: 0px 5px;
 }
 
-.createButton button{
+.createButton button {
     color: white;
     background-color: rgba(9, 66, 51, 1);
     font-size: 24px;
@@ -96,7 +100,7 @@ input[type="checkbox"]{
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.createButton button:hover{
+.createButton button:hover {
     color: rgba(9, 66, 51, 1);
     background-color: rgba(228, 226, 222, 1);
 }
