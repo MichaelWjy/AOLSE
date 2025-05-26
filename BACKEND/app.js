@@ -11,11 +11,25 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-app.use(cors({
-    origin: 'http://localhost:3001',  // ganti dengan alamat frontend kamu
+const allowedOrigins = [
+    "http://localhost:3001",
+    "https://bizbridge-plum.vercel.app"
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,  
-}));
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 app.use(express.json());
 

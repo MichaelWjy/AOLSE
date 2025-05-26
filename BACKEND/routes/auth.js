@@ -36,7 +36,9 @@ try {
     }else if(role === "buyer") {
             const customerResult=await pool.query(
             `INSERT INTO customer (customername, customeremail, customerpassword, customercountry)
-            VALUES ($1, $2, $3, $4)`,
+            VALUES ($1, $2, $3, $4)
+            RETURNING customerid`,
+            
             [username, email, hashedPassword, country]
         );
         const customerId = customerResult.rows[0].customerid;
@@ -45,7 +47,7 @@ try {
         }
         for (const sectorId of selectedSectors) {
             await pool.query(
-                `INSERT INTO customer_sectors (customer_id, sector_id) VALUES ($1, $2)`,
+                `INSERT INTO buyer_sectors (buyer_id, sector_id) VALUES ($1, $2)`,
                 [customerId, sectorId]
             );
         }
@@ -148,37 +150,46 @@ router.get("/profile", verifyToken, async (req, res) => {
 
     try {
         let result;
+        let sectorResult;
         if (role === "buyer") {
             result = await pool.query(
-            "SELECT customername AS username, customercountry AS country, customerdescription AS description, customerphotourl AS photoURL FROM Customer WHERE CustomerID = $1",
-            [id]
-        );
+                "SELECT customername AS username, customercountry AS country, customerdescription AS description, customerphotourl AS photoURL FROM Customer WHERE CustomerID = $1",
+                [id]
+            );
             sectorResult = await pool.query(
                 `SELECT s.name FROM buyer_sectors bs JOIN sectors s ON bs.sector_id = s.id WHERE bs.buyer_id = $1`,
                 [id]
             );
         } else if (role === "seller") {
             result = await pool.query(
-            "SELECT companyname as username, companyaddress AS country, companydescription AS description, companyphotourl AS photoURL FROM Company WHERE CompanyID = $1",
-            [id]
+                "SELECT companyname as username, companyaddress AS country, companydescription AS description, companyphotourl AS photoURL FROM Company WHERE CompanyID = $1",
+                [id]
             );
             sectorResult = await pool.query(
-            `SELECT s.name FROM seller_sectors ss JOIN sectors s ON ss.sector_id = s.id WHERE ss.seller_id = $1`,
+                `SELECT s.name FROM seller_sectors ss JOIN sectors s ON ss.sector_id = s.id WHERE ss.seller_id = $1`,
                 [id]
             );
         } else {
             return res.status(400).json({ error: "Invalid role" });
         }
+
         if (!result.rows.length) {
             return res.status(404).json({ error: "User not found" });
         }
+        const profile = result.rows[0];
+        const sectors = sectorResult.rows.map(row => row.name);
 
-        res.json(result.rows[0]);
+        res.json({
+            ...profile,
+            sectors: sectors
+        });
+
     } catch (err) {
         console.error("Error fetching profile:", err);
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
 
 
 router.post("/logout", (req, res) => {
@@ -190,6 +201,28 @@ router.post("/logout", (req, res) => {
   // (Opsional) blacklist token di sini jika pakai Redis atau database
 
     res.status(200).json({ message: "Logout successful" });
+});
+
+
+router.get("/me", verifyToken, async (req, res) => {
+    const customerId = req.user.id;
+    const result = await pool.query(
+        "SELECT CustomerDescription, CustomerSector, CustomerPhotoURL FROM Customer WHERE CustomerID = $1",
+        [customerId]
+    );
+    res.json(result.rows[0]);
+});
+
+router.put("/update", verifyToken, async (req, res) => {
+    const customerId = req.user.id;
+    const { CustomerDescription, CustomerSector, CustomerPhotoURL } = req.body;
+
+    await pool.query(
+        "UPDATE Customer SET CustomerDescription = $1, CustomerSector = $2, CustomerPhotoURL = $3 WHERE CustomerID = $4",
+        [CustomerDescription, CustomerSector, CustomerPhotoURL, customerId]
+    );
+
+    res.json({ message: "Profil berhasil diperbarui" });
 });
 
 
