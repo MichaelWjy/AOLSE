@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import carouselSettings from "../LoginCarouselSetting";
 import Slider from "react-slick";
 import styles from "../Css/loginPage.module.css"
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const decoded = jwtDecode(token);
-                const now = Date.now() / 1000; // waktu sekarang dalam detik
-                if (decoded.exp > now) {
-                    navigate("/home");
-                } else {
-                    localStorage.removeItem("token");
-                }
-            } catch (e) {
+    const token = localStorage.getItem("token");
+    if (token) {
+        try {
+            const decoded = jwtDecode(token);
+            const now = Date.now() / 1000; // waktu sekarang dalam detik
+            if(decoded.exp > now){
+                navigate("/home");
+            }else{
                 localStorage.removeItem("token");
             }
+        }catch (e) {
+            localStorage.removeItem("token");
         }
+    }
     }, [navigate]);
 
     const handleLogin = async (e) => {
@@ -47,8 +47,8 @@ export default function Login() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem("token", data.token);     // <-- penting
-                localStorage.setItem("role", data.user.role);
+               localStorage.setItem("token", data.token);     // <-- penting
+                localStorage.setItem("role", data.user.role); 
                 localStorage.setItem("userID", data.user.id);
                 navigate("/home");
             } else {
@@ -60,8 +60,8 @@ export default function Login() {
         }
     };
 
-
-    return (
+    
+    return(
         <div className={styles.container}>
             <section className={styles.carouselSection}>
                 <Slider {...carouselSettings}>
@@ -83,26 +83,26 @@ export default function Login() {
                 <p>Welcome back! Select method to log in:</p>
                 <form onSubmit={handleLogin}>
                     <input type="text" placeholder="Username" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     <button type="submit">Login</button>
                 </form>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                    {error && <p style={{ color: "red" }}>{error}</p>}
 
                 <div className={styles.loginInfo}>
                     <div className={styles.remember}>
-                        <input type="checkbox" />
+                        <input type="checkbox"/>
                         <p>Remember Me</p>
                     </div>
                     <Link to="/forgot">Forgot password?</Link>
                 </div>
                 <div className={styles.loginButton}>
                     <div className={styles.noAcc}>
-                        <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
+                    <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
                         {/* <p>Don’t have an account? <a href="homePage.jsx">Click Here</a></p> */}
                     </div>
                 </div>
             </section>
         </div>
-
-    );
+        
+    );
 }

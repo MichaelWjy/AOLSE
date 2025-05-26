@@ -1,4 +1,4 @@
-.container {
+.container{
     font-family: 'Inria Serif', serif;
     overflow: hidden;
     color: #2d3748;
@@ -21,7 +21,7 @@
     /* object-fit: cover; */
 }
 
-.formSection {
+.formSection{
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 3%;
@@ -29,28 +29,28 @@
     padding: 10px;
 }
 
-.formSection img {
+.formSection img{
     margin: 2% 0%;
 }
 
-.formSection h1 {
+.formSection h1{
     margin: 0%;
     font-size: 40px
 }
 
-.formSection p {
+.formSection p{
     font-size: 20px;
     margin: 0%;
     padding-bottom: 40px;
 }
 
-form {
+form{
     display: flex;
     flex-direction: column;
     /* margin-bottom: 5%; */
 }
 
-input {
+input{
     border: 1px solid #ccc;
     background-color: rgba(244, 244, 244, 1);
     border-radius: 7px;
@@ -59,38 +59,37 @@ input {
     width: 418px;
     height: 40px;
 }
-
-.loginInfo {
+.loginInfo{
     display: flex;
     flex-direction: row;
     align-items: center;
-
+    
 }
 
-.loginInfo input {
+.loginInfo input{
     margin: 0;
     width: 15px;
     background-color: rgba(244, 244, 244, 1);
 }
 
-.loginInfo a {
+.loginInfo a{
     text-decoration: none;
     margin: 0% 28%;
     color: rgba(10, 113, 216, 1);
 }
 
-.remember {
+.remember{
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.remember p {
+.remember p{
     padding: 0% 2px;
     font-size: 14px;
 }
 
-.formSection button {
+.formSection button{
     color: white;
     background-color: rgba(9, 66, 51, 1);
     font-size: 24px;
@@ -102,24 +101,24 @@ input {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.formSection button:hover {
+.formSection button:hover{
     color: rgba(9, 66, 51, 1);
     background-color: rgba(228, 226, 222, 1);
 }
 
-.noAcc {
+.noAcc{
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.noAcc p {
+.noAcc p{
     color: rgba(127, 123, 123, 1);
     font-size: 14px;
 }
-
-.noAcc a {
+.noAcc a{
     font-size: 14px;
     text-decoration: none;
     color: rgba(10, 113, 216, 1);
 }
+
