@@ -12,14 +12,6 @@ const pool = new Pool({
 });
 
 async function sendResetEmail(email, token) {
-//     const transporter = nodemailer.createTransport({
-//     host: process.env.EMAIL_HOST,      
-//     port: parseInt(process.env.EMAIL_PORT),  
-//     auth: {
-//         user: process.env.EMAIL_USER,   
-//         pass: process.env.EMAIL_PASS,     
-//     },
-// });
     const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -50,7 +42,6 @@ router.post("/request-reset-password", async (req, res) => {
         let user = null;
         let role = null;
 
-    // Cari user di seller
         const sellerResult = await pool.query(
             "SELECT companyid AS id, companyemail AS email FROM company WHERE companyemail = $1",
             [email]
@@ -59,7 +50,6 @@ router.post("/request-reset-password", async (req, res) => {
             user = sellerResult.rows[0];
             role = "seller";
         } else {
-      // Cari di buyer
             const buyerResult = await pool.query(
             "SELECT customerid AS id, customeremail AS email FROM customer WHERE customeremail = $1",
             [email]
@@ -71,12 +61,8 @@ router.post("/request-reset-password", async (req, res) => {
     }
 
     if (!user) {
-        return res
-            .status(200)
-            .json({
-                message: "If email is registered, you will receive a reset link.",
-            });
-        }
+        return res.status(404).json({ error: "Email tidak ditemukan" });
+    }
 
     const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); 
@@ -113,10 +99,8 @@ router.post("/reset-password", async (req, res) => {
 
         const { user_id, role } = tokenResult.rows[0];
 
-      // Hash password baru
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Update password di tabel sesuai role
         if (role === "seller") {
             await pool.query(
             `UPDATE company SET companypassword = $1 WHERE companyid = $2`,
@@ -131,7 +115,6 @@ router.post("/reset-password", async (req, res) => {
             return res.status(400).json({ error: "Invalid role" });
         }
 
-      // Hapus token setelah dipakai
         await pool.query(`DELETE FROM password_reset_tokens WHERE token = $1`, [token]);
 
         res.json({ message: "Password has been reset successfully" });
