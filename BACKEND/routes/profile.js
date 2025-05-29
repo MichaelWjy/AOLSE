@@ -1,4 +1,3 @@
-// routes/profile.js
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -12,13 +11,11 @@ const pool = new Pool({
 });
 
 
-// Supabase client
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 const BUCKET_NAME = process.env.SUPABASE_BUCKET;
-const storage = multer.memoryStorage(); // gunakan memoryStorage
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
-// Auth middleware
 function verifyToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -31,9 +28,8 @@ function verifyToken(req, res, next) {
     });
 }
 
-// GET /api/auth/profile
 router.get("/check-profile", verifyToken, async (req, res) => {
-    const role = req.user.role; // dari payload JWT
+    const role = req.user.role;
     const id = req.user.id;
 
     try {
@@ -44,7 +40,7 @@ router.get("/check-profile", verifyToken, async (req, res) => {
             result = await pool.query(
                 `SELECT CustomerID AS id, CustomerName AS username, CustomerEmail AS email,
                         CustomerCountry AS country, CustomerDescription AS description,
-                        CustomerPhotoURL AS photoURL
+                        CustomerPhotoURL AS "photoURL"
                 FROM Customer WHERE CustomerID = $1`,
                 [id]
             );
@@ -54,11 +50,12 @@ router.get("/check-profile", verifyToken, async (req, res) => {
                 WHERE bs.buyer_id = $1`,
                 [id]
             );
+            console.log("Fetched profile row:", result.rows[0]);
         } else if (role === "seller") {
             result = await pool.query(
                 `SELECT CompanyID AS id, CompanyName AS username, CompanyEmail AS email,
                         CompanyAddress AS country, CompanyDescription AS description,
-                        CompanyPhotoURL AS photoURL
+                        CompanyPhotoURL AS "photoURL"
                 FROM Company WHERE CompanyID = $1`,
                 [id]
             );
@@ -94,24 +91,20 @@ router.get("/check-profile", verifyToken, async (req, res) => {
     }
 });
 
-// PUT /api/profile/:id - update description and sectors
 router.put("/:id", verifyToken, async (req, res) => {
     const userId = req.user.id;
     const { customerdescription, customersector } = req.body;
     const role = req.user.role;
 
     try {
-        // Update deskripsi
         if (role === "buyer") {
             await pool.query(
                 `UPDATE Customer SET CustomerDescription = $1 WHERE CustomerID = $2`,
                 [customerdescription, userId]
             );
 
-            // Delete existing buyer_sectors
             await pool.query(`DELETE FROM buyer_sectors WHERE buyer_id = $1`, [userId]);
 
-            // Get sector IDs
             const sectorRes = await pool.query(
                 `SELECT id FROM sectors WHERE name = ANY($1)`,
                 [customersector]
@@ -132,10 +125,8 @@ router.put("/:id", verifyToken, async (req, res) => {
                 [customerdescription, userId]
             );
 
-            // Delete existing seller_sectors
             await pool.query(`DELETE FROM seller_sectors WHERE seller_id = $1`, [userId]);
 
-            // Get sector IDs
             const sectorRes = await pool.query(
                 `SELECT id FROM sectors WHERE name = ANY($1)`,
                 [customersector]
@@ -160,19 +151,19 @@ router.put("/:id", verifyToken, async (req, res) => {
     }
 });
 
-// POST /api/profile/photo/:id - update profile photo
 router.post("/photo/:id", verifyToken, upload.single("photo"), async (req, res) => {
     const id = req.user.id;
     const role = req.user.role;
     const file = req.file;
 
-    // ✅ Gunakan nama tabel dan kolom ID yang sesuai dengan struktur Supabase
-    const table = role === "buyer" ? "customer" : "company";
-    const idColumn = role === "buyer" ? "customerid" : "companyid";
+    const table = role === "buyer" ? "Customer" : "Company";
+    const idColumn = role === "buyer" ? "CustomerID" : "CompanyID";
+    const photoColumn = role === "buyer" ? "CustomerPhotoURL" : "CompanyPhotoURL";
 
     if (!file) return res.status(400).json({ error: "No file uploaded" });
 
     const filename = `${table.toLowerCase()}_${id}_${Date.now()}`;
+        console.log("Uploading:", filename, file.mimetype, file.size);
     const { data, error: uploadError } = await supabase.storage
         .from(BUCKET_NAME)
         .upload(filename, file.buffer, {
@@ -187,19 +178,22 @@ router.post("/photo/:id", verifyToken, upload.single("photo"), async (req, res) 
 
     const { data: publicUrlData } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filename);
     const imageUrl = publicUrlData.publicUrl;
-    const photoColumn = role === "buyer" ? "customerphotourl" : "companyphotourl";
-
-    const { error: dbError } = await supabase
-        .from(table)
-        .update({ [photoColumn]: imageUrl })
-        .eq(idColumn, id);
-
-    if (dbError) {
-        console.error("Database update error:", dbError.message);
-        return res.status(500).json({ error: dbError.message });
+    console.log("Public URL:", imageUrl);
+    try {
+        const {rows}=await pool.query(
+            `UPDATE ${table} SET ${photoColumn} = $1 WHERE ${idColumn} = $2 RETURNING *`,
+            [imageUrl, id]
+        );
+        console.log("Updated DB row:", rows[0]);
+        return res.json({
+            message: 'Upload successful',
+            customer: rows[0],  
+            imageUrl
+        });
+    } catch (dbErr) {
+        console.error("Database update error:", dbErr.message);
+        return res.status(500).json({ error: dbErr.message });
     }
-
-    return res.json({ imageUrl });
 });
 
 

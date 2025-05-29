@@ -3,7 +3,7 @@ const router = express.Router();
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const verifyToken = require("../middleware/authenticate")
 require("dotenv").config();
 
 const pool = new Pool({
@@ -11,7 +11,6 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-// 🔐 Register
 router.post("/register", async (req, res) => {
 const {
     username,
@@ -28,11 +27,23 @@ try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     if (role === "seller") {
-        await pool.query(
+        const companyResult=await pool.query(
             `INSERT INTO company (username, companyemail, companypassword, companyname, companyaddress)
-            VALUES ($1, $2, $3, $4, $5)`,
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING companyid`
+            ,
             [username, email, hashedPassword, companyName, companyAddress]
         );
+        const companyID = companyResult.rows[0].companyid;
+        if (selectedSectors.length > 3) {
+            return res.status(400).json({ error: "You can select up to 3 sectors only." });
+        }
+        for (const sectorId of selectedSectors) {
+            await pool.query(
+                `INSERT INTO seller_sectors (seller_id, sector_id) VALUES ($1, $2)`,
+                [companyID, sectorId]
+            );
+        }
     }else if(role === "buyer") {
             const customerResult=await pool.query(
             `INSERT INTO customer (customername, customeremail, customerpassword, customercountry)
@@ -61,7 +72,6 @@ try {
     }
 });
 
-// 🔐 Login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
@@ -69,7 +79,6 @@ router.post("/login", async (req, res) => {
         let user = null;
         let role = null;
 
-        // Cari user di tabel sellers
         const sellerResult = await pool.query(
             "SELECT * FROM company WHERE companyemail = $1",
             [email]
@@ -79,7 +88,6 @@ router.post("/login", async (req, res) => {
             user = sellerResult.rows[0];
             role = "seller";
         } else {
-            // Jika tidak ada di sellers, cari di buyers
             const buyerResult = await pool.query(
                 "SELECT * FROM customer WHERE customeremail = $1",
                 [email]
@@ -91,7 +99,6 @@ router.post("/login", async (req, res) => {
             }
         }
 
-        // Jika user tidak ditemukan di kedua tabel
         if (!user) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
@@ -106,14 +113,12 @@ router.post("/login", async (req, res) => {
         const userEmail = role === "seller" ? user.companyemail : user.customeremail;
 
 
-        // Generate JWT dengan payload id dan role
         const token = jwt.sign(
             { id: userId, role },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
 
-        // Kirim response berisi token dan info user (termasuk role)
         res.json({
             token,
             user: {
@@ -130,75 +135,23 @@ router.post("/login", async (req, res) => {
 });
 
 
-// 🔒 Middleware: protect route
-function verifyToken(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.status(401).json({ error: "No token provided" });
+// function verifyToken(req, res, next) {
+//     const authHeader = req.headers["authorization"];
+//     const token = authHeader && authHeader.split(" ")[1];
+//     if (!token) return res.status(401).json({ error: "No token provided" });
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ error: "Invalid token" });
-        req.user = decoded;
-        next();
-    });
-}
-
-// 🛡 Contoh route protected
-// router.get("/profile", verifyToken, async (req, res) => {
-//     const role = req.user.role; // dari payload JWT
-//     const id = req.user.id;
-
-//     try {
-//         let result;
-//         let sectorResult;
-//         if (role === "buyer") {
-//             result = await pool.query(
-//                 "SELECT customername AS username, customercountry AS country, customerdescription AS description, customerphotourl AS photoURL FROM Customer WHERE CustomerID = $1",
-//                 [id]
-//             );
-//             sectorResult = await pool.query(
-//                 `SELECT s.name FROM buyer_sectors bs JOIN sectors s ON bs.sector_id = s.id WHERE bs.buyer_id = $1`,
-//                 [id]
-//             );
-//         } else if (role === "seller") {
-//             result = await pool.query(
-//                 "SELECT companyname as username, companyaddress AS country, companydescription AS description, companyphotourl AS photoURL FROM Company WHERE CompanyID = $1",
-//                 [id]
-//             );
-//             sectorResult = await pool.query(
-//                 `SELECT s.name FROM seller_sectors ss JOIN sectors s ON ss.sector_id = s.id WHERE ss.seller_id = $1`,
-//                 [id]
-//             );
-//         } else {
-//             return res.status(400).json({ error: "Invalid role" });
-//         }
-
-//         if (!result.rows.length) {
-//             return res.status(404).json({ error: "User not found" });
-//         }
-//         const profile = result.rows[0];
-//         const sectors = sectorResult.rows.map(row => row.name);
-
-//         res.json({
-//             ...profile,
-//             sectors: sectors
-//         });
-
-//     } catch (err) {
-//         console.error("Error fetching profile:", err);
-//         res.status(500).json({ error: "Internal server error" });
-//     }
-// });
-
-
+//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//         if (err) return res.status(403).json({ error: "Invalid token" });
+//         req.user = decoded;
+//         next();
+//     });
+// }
 
 router.post("/logout", (req, res) => {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
 
     console.log("Token logout:", token);
-
-  // (Opsional) blacklist token di sini jika pakai Redis atau database
 
     res.status(200).json({ message: "Logout successful" });
 });

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { Pool } = require('pg');
 const multer = require('multer');
@@ -11,6 +10,13 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 }); 
 
+const supabase = new SupabaseClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY
+);
+
+const bucket = process.env.SUPABASE_BUCKET || 'default-bucket';
+
 const upload = multer({ dest: 'uploads/' });
 
 // ✅ Get profile
@@ -20,7 +26,7 @@ router.get('/:id', async (req, res) => {
     res.json(result.rows[0]);
 });
 
-// ✏️ Update profile
+// ✏ Update profile
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { customersector, customerdescription } = req.body;
@@ -33,19 +39,55 @@ router.put('/:id', async (req, res) => {
     res.json({ message: 'Profile updated' });
 });
 
-// 🖼️ Update photo
+// 🖼 Update photo
 router.post('/photo/:id', upload.single('photo'), async (req, res) => {
+try {
     const { id } = req.params;
-    const file = req.file;
-    const imageUrl = `/uploads/${file.filename}`;
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded.' });
+    }
+    const filename = ${Date.now()}-${req.file.originalname};
+    const objectPath = customers/${id}/${filename};
+    const { data: uploadData, error: uploadError } = await supabase
+      .storage
+      .from(BUCKET)
+      .upload(objectPath, req.file.buffer, {
+        contentType: req.file.mimetype,
+        upsert: false,
+      });
 
-    // Optionally: save image to cloud, not just local
-    await pool.query(
-        'UPDATE customer SET customerphotourl = $1 WHERE customerid = $2',
-        [imageUrl, id]
-    );
+    if (uploadError) {
+      console.error('Supabase upload error:', uploadError);
+      throw uploadError;
+    }
+    const { publicURL, error: urlError } = supabase
+      .storage
+      .from()
+      .getPublicUrl(uploadData.path);
 
-    res.json({ imageUrl });
+    if (urlError) {
+      console.error('Error generating public URL:', urlError);
+      throw urlError;
+    }
+
+    const updateQuery = `
+      UPDATE customer
+      SET customerphotourl = $1
+      WHERE customerid = $2
+      RETURNING *;
+    `;
+    const { rows } = await pool.query(updateQuery, [publicURL, id]);
+
+    res.json({
+      message: 'Upload successful',
+      customer: rows[0],
+      publicURL
+    });
+
+  } catch (error) {
+    console.error('Error in /photo/:id:', error);
+    res.status(500).json({ error: error.message || error });
+  }
 });
 
 module.exports = router;
