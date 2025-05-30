@@ -14,6 +14,8 @@ const profileRoutes = require('./routes/profile')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const customerRoutes = require("./routes/customer");
+const searchRoutes = require("./routes/search");
+
 
 const app = express();
 const allowedOrigins = [
@@ -46,6 +48,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use("/api/chat", chatRoutes);
+
+app.use("/api/search", searchRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/customer", customerRoutes);
 app.use("/api/sector", sector);
