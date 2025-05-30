@@ -18,7 +18,8 @@ const customerRoutes = require("./routes/customer");
 const app = express();
 const allowedOrigins = [
     "http://localhost:3001",
-    "https://bizbridge-plum.vercel.app"
+    "https://bizbridge-plum.vercel.app",
+    "https://bizbridge-45pn3xpld-michaelwjys-projects.vercel.app/"
 ];
 
 const corsOptions = {
