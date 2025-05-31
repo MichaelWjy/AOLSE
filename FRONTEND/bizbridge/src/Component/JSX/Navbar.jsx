@@ -38,10 +38,10 @@ export default function Navbar() {
 
         const delayDebounce = setTimeout(() => {
             fetchResults();
-        }, 300); // debounce 300ms
+        }, 300); 
 
         return () => clearTimeout(delayDebounce);
-    }, [query, role]); // role dimasukkan sebagai dependency agar tidak warning
+    }, [query, role]); 
 
     const handleResultClick = (id) => {
         setQuery("");

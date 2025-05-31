@@ -17,7 +17,6 @@
   padding: 2rem;
 }
 
-/* Setiap card mengambil kira-kira 45% lebar container agar bisa dua kolom */
 .card {
   flex: 0 1 100%;
   background-color: white;

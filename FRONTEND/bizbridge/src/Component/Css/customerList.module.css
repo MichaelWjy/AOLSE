@@ -17,7 +17,6 @@
   padding: 2rem;
 }
 
-/* Setiap card mengambil kira-kira 45% lebar container agar bisa dua kolom */
 .card {
   flex: 0 1 45%;
   background-color: white;
@@ -37,6 +36,7 @@
   align-items: center;
   position: relative;
 }
+
 
 .profileImg {
   width: 150px;
@@ -69,17 +69,20 @@
   margin-bottom: 1rem;
 }
 
+
 .sectorItem {
   color: #155e3c;
   font-weight: 500;
   cursor: pointer;
 }
 
+
 .buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
+
 
 .button {
   background-color: #0f3d2c;
@@ -98,6 +101,7 @@
 .button:hover {
   background-color: #155e3c;
 }
+
 
 footer{
     margin-top: 0%;
