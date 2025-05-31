@@ -21,7 +21,7 @@ export default function Register() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/sector/sectors")
+        fetch("https://aolse-production.up.railway.app/api/sector/sectors")
             .then((res) => res.json())
             .then((data) => setSectors(data))
             .catch((err) => console.error("Failed to fetch sectors", err));
@@ -35,7 +35,6 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Password match validation
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             return;
@@ -43,7 +42,6 @@ export default function Register() {
             setPasswordError("");
         }
 
-        // Validate sectors only if buyer
         if (role === "buyer" && selectedSectors.length === 0) {
             setSectorError("Please select at least one sector (up to 3)");
             return;
@@ -52,7 +50,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/api/auth/register", {
+            const res = await fetch("https://aolse-production.up.railway.app/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

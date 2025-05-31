@@ -16,7 +16,7 @@ export default function Login(){
     if (token) {
         try {
             const decoded = jwtDecode(token);
-            const now = Date.now() / 1000; // waktu sekarang dalam detik
+            const now = Date.now() / 1000; 
             if(decoded.exp > now){
                 navigate("/home");
             }else{
@@ -47,7 +47,7 @@ export default function Login(){
             const data = await response.json();
 
             if (response.ok) {
-               localStorage.setItem("token", data.token);     // <-- penting
+               localStorage.setItem("token", data.token);    
                 localStorage.setItem("role", data.user.role); 
                 localStorage.setItem("userID", data.user.id);
                 navigate("/home");
@@ -97,8 +97,7 @@ export default function Login(){
                 </div>
                 <div className={styles.loginButton}>
                     <div className={styles.noAcc}>
-                    <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
-                        {/* <p>Don’t have an account? <a href="homePage.jsx">Click Here</a></p> */}
+                        <p>Don’t have an account? <Link to="/register">Click Here</Link></p>
                     </div>
                 </div>
             </section>

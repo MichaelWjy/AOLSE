@@ -8,7 +8,7 @@ export default function Reset() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    // Ambil token dari url param
+ 
     const { token } = useParams();
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ export default function Reset() {
                 setSuccess(data.message);
                 setTimeout(() => {
                     navigate("/");
-                }, 3001); // Redirect ke login setelah 3 detik
+                }, 3001); 
             } else {
                 setError(data.error || "Failed to reset password");
             }
