@@ -1,0 +1,114 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f3f4f6; /* gray-100 */
+}
+
+.header {
+  background-color: #065f46; /* green-900 */
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+.messageRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.messageRowLeft {
+  justify-content: flex-start;
+}
+
+.messageRowRight {
+  justify-content: flex-end;
+}
+
+.messageAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  margin-right: 8px;
+}
+
+.messageBubble {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background-color: #9ca3af; /* gray-400 */
+  color: white;
+  font-size: 14px;
+}
+
+
+.avatar {
+  width: 2.5rem; /* 10 */
+  height: 2.5rem;
+  border-radius: 9999px;
+  margin-right: 1rem;
+}
+
+.username {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.messageWrapper {
+  margin-bottom: 0.75rem; /* mb-3 */
+  display: flex;
+}
+
+.messageWrapperRight {
+  justify-content: flex-end;
+}
+
+.messageWrapperLeft {
+  justify-content: flex-start;
+}
+
+.messageBubble {
+  max-width: 20rem; /* max-w-sm */
+  background-color: #9ca3af; /* gray-400 */
+  color: white;
+  padding: 0.75rem;
+  border-radius: 1rem; /* rounded-xl */
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb; /* border-t, gray-200 */
+}
+
+.input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; /* rounded-full */
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.button {
+  background-color: #047857; /* green-700 */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px; /* rounded-full */
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.button:hover {
+  background-color: #065f46; /* darken green */
+}

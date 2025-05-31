@@ -3,13 +3,11 @@
   font-family: 'Inria Serif', serif;
 }
 
-
 .page {
   background-color: rgba(235, 222, 222, 1);
   min-height: 100vh;
   /* padding: 2rem; */
 }
-
 
 .container {
   display: flex;
@@ -19,8 +17,6 @@
   padding: 2rem;
 }
 
-
-/* Setiap card mengambil kira-kira 45% lebar container agar bisa dua kolom */
 .card {
   flex: 0 1 100%;
   background-color: white;
@@ -33,7 +29,6 @@
   height: 643px;
 }  
 
-
 .header {
   /* background-color: #0f3d2c; */
   height: 369px;
@@ -42,7 +37,6 @@
   align-items: center;
   position: relative;
 }
-
 
 .profileImg {
     width: 100%;
@@ -54,7 +48,6 @@
     position: absolute;
 }
 
-
 .content {
     margin-top: 1%;
   padding: 0px 20px 20px;
@@ -63,11 +56,9 @@
   justify-content: space-between;
 }
 
-
 .contentText{
     margin-right: 7%;
 }
-
 
 .name {
   font-size: 40px;
@@ -75,29 +66,24 @@
   margin-bottom: 40px;
 }
 
-
 .country {
   color: #555;
   margin-bottom: 0.5rem;
   font-size: 20px;
 }
 
-
 .sector {
   font-size: 20px;
   color: #444;
   margin-bottom: 1rem;
 
-
 }
-
 
 .sectorItem {
   color: #155e3c;
   font-weight: 500;
   cursor: pointer;
 }
-
 
 .buttons {
   display: flex;
@@ -107,7 +93,6 @@
   /* margin-right: 5%; */
   margin-top: 7%;
 }
-
 
 .button {
   background-color: #0f3d2c;
@@ -123,11 +108,9 @@
   height: 80px;
 }
 
-
 .button:hover {
   background-color: #155e3c;
 }
-
 
 footer{
     margin-top: 0%;

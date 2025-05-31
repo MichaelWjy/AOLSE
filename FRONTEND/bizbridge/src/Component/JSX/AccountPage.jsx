@@ -4,7 +4,6 @@ import Select from "react-select";
 import styles from "../Css/acc.module.css";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Account() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -14,14 +13,12 @@ export default function Account() {
   const [allSectors, setAllSectors] = useState([]);
   const [photoFile, setPhotoFile] = useState(null);
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
       return;
     }
-
 
     const fetchSectors = async () => {
       try {
@@ -35,9 +32,7 @@ export default function Account() {
       }
     };
 
-
     fetchSectors();
-
 
     fetch("https://aolse-production.up.railway.app/api/profile/check-profile", {
       headers: { Authorization: `Bearer ${token}` },
@@ -58,7 +53,6 @@ export default function Account() {
       });
   }, [navigate]);
 
-
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     await fetch("https://aolse-production.up.railway.app/api/auth/logout", {
@@ -73,15 +67,12 @@ export default function Account() {
     navigate("/");
   };
 
-
   const handlePhotoChange = (e) => {
     setPhotoFile(e.target.files[0]);
   };
 
-
   const handleSave = async () => {
     const token = localStorage.getItem("token");
-
 
     try {
       const res = await fetch(`https://aolse-production.up.railway.app/api/profile/${user.id}`, {
@@ -96,19 +87,16 @@ export default function Account() {
         }),
       });
 
-
       if (!res.ok) throw new Error(`Update failed: ${res.status}`);
     } catch (err) {
       console.error("Failed to update profile:", err);
       alert("Profile update failed.");
     }
 
-
     if (photoFile) {
       try {
         const formData = new FormData();
         formData.append("photo", photoFile);
-
 
         const res = await fetch(
           `https://aolse-production.up.railway.app/api/profile/photo/${user.id}`,
@@ -119,7 +107,6 @@ export default function Account() {
           }
         );
 
-
         if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
         const { imageUrl } = await res.json();
         setUser((prev) => ({ ...prev, photoURL: imageUrl }));
@@ -129,10 +116,8 @@ export default function Account() {
       }
     }
 
-
     setEditing(false);
   };
-
 
   if (!user) {
     return (
@@ -181,7 +166,6 @@ export default function Account() {
               <p>{user.country}</p>
             </div>
 
-
             <div className={styles.sector}>
               <span>Sector:</span>
               {editing ? (
@@ -208,7 +192,6 @@ export default function Account() {
               )}
             </div>
 
-
             <div className={styles.description}>
               <h3>Description:</h3>
               {editing ? (
@@ -221,7 +204,6 @@ export default function Account() {
               )}
             </div>
 
-
             <div className={styles["editbtn"]}>
               {editing ? (
                 <button onClick={handleSave}>Save</button>
@@ -229,7 +211,6 @@ export default function Account() {
                 <button onClick={() => setEditing(true)}>Edit Profile</button>
               )}
             </div>
-
 
             <div className={styles.logoutbtn}>
               <button onClick={handleLogout}>Logout</button>
@@ -275,7 +256,6 @@ export default function Account() {
               <p>{user.country}</p>
             </div>
 
-
             <div className={styles.sector}>
               <span>Sector:</span>
               {editing ? (
@@ -302,7 +282,6 @@ export default function Account() {
               )}
             </div>
 
-
             <div className={styles.description}>
               <h3>Description:</h3>
               {editing ? (
@@ -315,7 +294,6 @@ export default function Account() {
               )}
             </div>
 
-
             <div className={styles["editbtn"]}>
               {editing ? (
                 <button onClick={handleSave}>Save</button>
@@ -323,7 +301,6 @@ export default function Account() {
                 <button onClick={() => setEditing(true)}>Edit Profile</button>
               )}
             </div>
-
 
             <div className={styles.logoutbtn}>
               <button onClick={handleLogout}>Logout</button>

@@ -25,7 +25,7 @@ export default function Register() {
             .then((res) => res.json())
             .then((data) => setSectors(data))
             .catch((err) => console.error("Failed to fetch sectors", err));
-    }, []);
+        }, []);
 
     const countryOptions = countries.map((country) => ({
         value: country.name.common,
@@ -85,18 +85,18 @@ export default function Register() {
                 <img src="/logoHitam.png" alt="Logo" />
                 <h1>Create your Account</h1>
                 <form className={styles.registerForm} onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required
                     />
                     {passwordError && (<p style={{ color: "red", fontSize: "0.8rem" }}>{passwordError}</p>)}
 
                     <p>Choose your role:</p>
                     <div className={styles.roleRadio}>
-                        <input type="radio" value="buyer" name="role" id="buyer" onChange={(e) => setRole(e.target.value)} required />
+                        <input type="radio" value="buyer" name="role" id="buyer" onChange={(e) => setRole(e.target.value)} required/>
                         <label htmlFor="buyer">Buyer</label>
-                        <input type="radio" value="seller" name="role" id="seller" onChange={(e) => setRole(e.target.value)} required />
+                        <input type="radio" value="seller" name="role"  id="seller" onChange={(e) => setRole(e.target.value)}  required/>
                         <label htmlFor="seller">Seller</label>
                     </div>
                     {role === "seller" && (
@@ -130,9 +130,9 @@ export default function Register() {
                                 <p style={{ color: "red", fontSize: "0.8rem" }}>{sectorError}</p>
                             )}
 
-                            <input type="text" placeholder="Owner Name" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required />
-                            <input type="text" placeholder="Company Name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required />
-                            <input type="text" placeholder="Company Address" value={companyAddress} onChange={(e) => setCompanyAddress(e.target.value)} required />
+                            <input type="text" placeholder="Owner Name" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required/>
+                            <input type="text"  placeholder="Company Name" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required/>
+                            <input type="text" placeholder="Company Address" value={companyAddress} onChange={(e) => setCompanyAddress(e.target.value)} required/>
                         </>
                     )}
 
@@ -192,7 +192,7 @@ export default function Register() {
                         </Link>
                     </div>
                     <div className={styles.createButton}>
-                        <button type="submit">Create</button>
+                    <button type="submit">Create</button>
                     </div>
                 </form>
             </section>
