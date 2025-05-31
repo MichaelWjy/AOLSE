@@ -3,13 +3,11 @@
   font-family: 'Inria Serif', serif;
 }
 
-
 .page {
   background-color: rgba(235, 222, 222, 1);
   min-height: 100vh;
   /* padding: 2rem; */
 }
-
 
 .container {
   display: flex;
@@ -19,8 +17,6 @@
   padding: 2rem;
 }
 
-
-/* Setiap card mengambil kira-kira 45% lebar container agar bisa dua kolom */
 .card {
   flex: 0 1 45%;
   background-color: white;
@@ -31,7 +27,6 @@
   position: relative;
   padding-bottom: 1.5rem;
 }  
-
 
 .header {
   background-color: #0f3d2c;
@@ -53,11 +48,9 @@
   bottom: -80px;
 }
 
-
 .content {
   padding: 60px 20px 20px;
 }
-
 
 .name {
   font-size: 1.25rem;
@@ -65,12 +58,10 @@
   margin-bottom: 0.25rem;
 }
 
-
 .country {
   color: #555;
   margin-bottom: 0.5rem;
 }
-
 
 .sector {
   font-size: 0.9rem;
@@ -106,7 +97,6 @@
   width: 300px;
   height: 50px;
 }
-
 
 .button:hover {
   background-color: #155e3c;

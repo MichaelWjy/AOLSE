@@ -4,18 +4,15 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import styles from "../Css/customerList.module.css";
 
-
 export default function CustomerList() {
     const [customers, setCustomers] = useState([]);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         const fetchCustomers = async () => {
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("No token found! Please log in.");
-
 
             const response = await fetch("https://aolse-production.up.railway.app/api/customer/", {
                 method: "GET",
@@ -25,10 +22,8 @@ export default function CustomerList() {
                 },
             });
 
-
             if (!response.ok)
                 throw new Error(`HTTP error! status: ${response.status}`);
-
 
                 const data = await response.json();
                 setCustomers(data);
@@ -36,27 +31,23 @@ export default function CustomerList() {
                 console.error("Error fetching customers:", err);
             }
         };
-   
+    
         fetchCustomers();
     }, []);
-
 
     async function handleMessage(company) {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
         const userId = localStorage.getItem("userID"); // pastikan ini diset saat login
 
-
         console.log("token:", token);
         console.log("role:", role);
         console.log("id:", userId);
-
 
         if (!token || !userId || !company) {
             console.error("Missing required data");
             return;
         }
-
 
         // Payload disesuaikan dengan role, dan company adalah target
         const payload =role === "seller" ? { seller_id: userId, buyer_id: company.CustomerID || company.CompanyID }: { buyer_id: userId, seller_id: company.CustomerID || company.CompanyID };
@@ -70,7 +61,6 @@ export default function CustomerList() {
                 body: JSON.stringify(payload),
             });
 
-
             if (!res.ok)
                 throw new Error(`Failed to start chat. Status: ${res.status}`);
             const userId = localStorage.getItem("userID");
@@ -80,7 +70,6 @@ export default function CustomerList() {
             console.error("Error starting chat room:", err);
         }
     }
-
 
 return (
     <div className={styles.page}>

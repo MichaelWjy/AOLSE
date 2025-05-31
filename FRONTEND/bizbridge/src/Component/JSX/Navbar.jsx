@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "../Css/Navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 
-
 export default function Navbar() {
     const role = localStorage.getItem("role");
     const [query, setQuery] = useState("");
@@ -10,14 +9,12 @@ export default function Navbar() {
     const [showResults, setShowResults] = useState(false);
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const fetchResults = async () => {
             if (query.trim() === "") {
                 setResults([]);
                 return;
             }
-
 
             try {
                 const token = localStorage.getItem("token");
@@ -30,7 +27,6 @@ export default function Navbar() {
                     body: JSON.stringify({ query, role }),
                 });
 
-
                 const data = await res.json();
                 setResults(data);
                 setShowResults(true);
@@ -40,15 +36,12 @@ export default function Navbar() {
             }
         };
 
-
         const delayDebounce = setTimeout(() => {
             fetchResults();
-        }, 300); // debounce 300ms
-
+        }, 300); 
 
         return () => clearTimeout(delayDebounce);
-    }, [query, role]); // role dimasukkan sebagai dependency agar tidak warning
-
+    }, [query, role]); 
 
     const handleResultClick = (id) => {
         setQuery("");
@@ -60,35 +53,31 @@ export default function Navbar() {
         }
     };
 
+const renderSearchResults = () => {
+    if (!showResults || results.length === 0) return null;
 
-    const renderSearchResults = () => {
-        if (!showResults || results.length === 0) return null;
-
-
-        return (
-            <ul className={styles.searchResults}>
-                {results.map((item) => (
-                    <li key={item.id} onMouseDown={() => handleResultClick(item.id)} className={styles.resultItem}>
-                        <img src={item.photo || "/default-profile.png"} alt="profile" className={styles.resultPhoto} />
-                        <div className={styles.resultInfo}>
-                            <div className={styles.resultName}>{item.name}</div>
-                            <div className={styles.resultSector}>
-                                {Array.isArray(item.sector) ? item.sector.join(", ") : item.sector}
-                            </div>
+    return (
+        <ul className={styles.searchResults}>
+            {results.map((item) => (
+                <li key={item.id} onMouseDown={() => handleResultClick(item.id)} className={styles.resultItem}>
+                    <img src={item.photo || "/default-profile.png"} alt="profile" className={styles.resultPhoto} />
+                    <div className={styles.resultInfo}>
+                        <div className={styles.resultName}>{item.name}</div>
+                        <div className={styles.resultSector}>
+                            {Array.isArray(item.sector) ? item.sector.join(", ") : item.sector}
                         </div>
-                    </li>
-                ))}
-            </ul>
-        );
-    };
-
+                    </div>
+                </li>
+            ))}
+        </ul>
+    );
+};
 
     return (
         <header className={styles.navbar}>
             <div className={styles.logoSection}>
                 <img src="/logoPutih.png" alt="BizBridge Logo" className={styles.logo} />
             </div>
-
 
             <div className={styles.searchContainer}>
                 <input
@@ -102,7 +91,6 @@ export default function Navbar() {
                 />
                 {renderSearchResults()}
             </div>
-
 
             <nav className={styles.navLinks}>
                 <Link to="/home">Home</Link>
