@@ -5,7 +5,7 @@ import styles from "../Css/customerProfile.module.css";
 
 
 export default function CustomerProfile() {
-    const { id } = useParams(); // Ambil ID dari URL
+    const { id } = useParams(); 
     const navigate = useNavigate();
 
 
@@ -47,7 +47,7 @@ export default function CustomerProfile() {
     async function handleMessage() {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
-        const userId = localStorage.getItem("userID"); // pastikan ini diset saat login
+        const userId = localStorage.getItem("userID");
         console.log("token:", token);
         console.log("role:", role);
         console.log("id:", userId);
@@ -77,7 +77,7 @@ export default function CustomerProfile() {
 
 
             const room = await res.json();
-            navigate(`/chat/${room.id}`); // ganti `room.id` sesuai dengan struktur response
+            navigate(`/chat/${room.id}`); 
         } catch (err) {
             console.error("Error starting chat room:", err);
         }

@@ -11,16 +11,16 @@ useEffect(() => {
     
     const fetchCompany = async () => {
         try {
-            const token = localStorage.getItem("token"); // Ambil token dari localStorage atau sumber penyimpanan lainnya
+            const token = localStorage.getItem("token");
             if (!token) {
                 throw new Error("No token found! Please log in.");
             }
 
-            const response = await fetch("http://localhost:3000/api/customer/", {
+            const response = await fetch("https://aolse-production.up.railway.app/api/customer/", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // Tambahkan token di header Authorization
+                    Authorization: `Bearer ${token}`, 
                 },
             });
 
@@ -42,7 +42,7 @@ useEffect(() => {
 async function handleMessage(company) {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
-    const userId = localStorage.getItem("userID"); // pastikan ini diset saat login
+    const userId = localStorage.getItem("userID");
 
     console.log("token:", token);
     console.log("role:", role);
@@ -53,7 +53,6 @@ async function handleMessage(company) {
         return;
     }
 
-    // Payload disesuaikan dengan role, dan company adalah target
     const payload =role === "seller"  ? { seller_id: userId, buyer_id: company.CustomerID || company.CompanyID }  : { buyer_id: userId, seller_id: company.CustomerID || company.CompanyID };
 
     try {
@@ -70,7 +69,7 @@ async function handleMessage(company) {
             throw new Error(`Failed to start chat. Status: ${res.status}`);
 
         const room = await res.json();
-        navigate(`/chat/${room.id}`); // sesuaikan dengan struktur response
+        navigate(`/chat/${room.id}`);
     } catch (err) {
         console.error("Error starting chat room:", err);
     }

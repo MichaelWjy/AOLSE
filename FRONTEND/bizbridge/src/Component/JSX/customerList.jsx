@@ -38,7 +38,7 @@ export default function CustomerList() {
     async function handleMessage(company) {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
-        const userId = localStorage.getItem("userID"); // pastikan ini diset saat login
+        const userId = localStorage.getItem("userID");
 
         console.log("token:", token);
         console.log("role:", role);
@@ -48,8 +48,6 @@ export default function CustomerList() {
             console.error("Missing required data");
             return;
         }
-
-        // Payload disesuaikan dengan role, dan company adalah target
         const payload =role === "seller" ? { seller_id: userId, buyer_id: company.CustomerID || company.CompanyID }: { buyer_id: userId, seller_id: company.CustomerID || company.CompanyID };
         try {
             const res = await fetch("https://aolse-production.up.railway.app/api/chat/start", {
@@ -65,7 +63,6 @@ export default function CustomerList() {
                 throw new Error(`Failed to start chat. Status: ${res.status}`);
             const userId = localStorage.getItem("userID");
             navigate(`/chat/${userId}/${company.CustomerID || company.CompanyID}`);
-        //   navigate(`/chat/${room.id}`); // sesuaikan dengan struktur response
         } catch (err) {
             console.error("Error starting chat room:", err);
         }

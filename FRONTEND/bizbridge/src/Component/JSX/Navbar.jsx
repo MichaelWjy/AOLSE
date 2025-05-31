@@ -18,7 +18,7 @@ export default function Navbar() {
 
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch("http://localhost:3000/api/search", {
+                const res = await fetch("https://aolse-production.up.railway.app/api/search", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -42,6 +42,7 @@ export default function Navbar() {
 
         return () => clearTimeout(delayDebounce);
     }, [query, role]); 
+
 
     const handleResultClick = (id) => {
         setQuery("");
@@ -87,7 +88,7 @@ const renderSearchResults = () => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => setShowResults(true)}
-                    onBlur={() => setTimeout(() => setShowResults(false), 200)} // supaya bisa klik dulu
+                    onBlur={() => setTimeout(() => setShowResults(false), 200)}
                 />
                 {renderSearchResults()}
             </div>

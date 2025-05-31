@@ -35,7 +35,6 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Password match validation
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             return;
@@ -43,7 +42,6 @@ export default function Register() {
             setPasswordError("");
         }
 
-        // Validate sectors only if buyer
         if (role === "buyer" && selectedSectors.length === 0) {
             setSectorError("Please select at least one sector (up to 3)");
             return;
