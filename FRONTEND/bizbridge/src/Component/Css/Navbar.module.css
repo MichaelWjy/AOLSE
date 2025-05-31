@@ -3,9 +3,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background:rgba(9, 66, 51, 1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: rgba(9, 66, 51, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .logoSection {
     display: flex;
@@ -13,14 +14,17 @@
     gap: 8px;
 }
 
+
 .logo {
     height: 80px;
 }
+
 
 .logoText {
     font-weight: bold;
     font-size: 18px;
 }
+
 
 .searchInput {
     border: 1px solid #ccc;
@@ -29,11 +33,76 @@
     width: 654px;
     height: 37px;
 }
+
 .searchInput::placeholder {
     font-weight: 700;
     color: rgba(0, 0, 0, 0.3);
     font-size: 18px;
 }
+
+.searchContainer {
+    margin-left: 10%;
+    width: 100%;
+}
+
+
+.searchResults {
+    position: absolute;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 43%;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+.resultItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+
+.resultItem:hover {
+    background-color: #f5f5f5;
+}
+
+
+.resultPhoto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+
+.resultInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.resultName {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+.resultSector {
+    font-size: 12px;
+    color: #666;
+}
+
 
 .navLinks {
     display: flex;
@@ -42,11 +111,13 @@
     color: white;
 }
 
+
 .navLinks a {
     text-decoration: none;
     color: inherit;
     transition: color 0.2s;
 }
+
 
 .navLinks a:hover {
     color: rgba(252, 204, 98, 1);
