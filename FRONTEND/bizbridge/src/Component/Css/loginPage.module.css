@@ -89,7 +89,7 @@ input{
     font-size: 14px;
 }
 
-.loginButton button{
+.formSection button{
     color: white;
     background-color: rgba(9, 66, 51, 1);
     font-size: 24px;
@@ -101,7 +101,7 @@ input{
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.loginButton button:hover{
+.formSection button:hover{
     color: rgba(9, 66, 51, 1);
     background-color: rgba(228, 226, 222, 1);
 }
@@ -121,3 +121,4 @@ input{
     text-decoration: none;
     color: rgba(10, 113, 216, 1);
 }
+

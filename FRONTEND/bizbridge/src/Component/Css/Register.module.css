@@ -56,6 +56,10 @@ p{
     align-items: center;
 }
 
+.sectorSelect{
+    width: 450px;
+}
+
 .CountryPick{
     border: 1px solid #ccc;
     background-color: rgba(244, 244, 244, 1);

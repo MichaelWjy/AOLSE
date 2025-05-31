@@ -18,14 +18,11 @@ export default function Login(){
             const decoded = jwtDecode(token);
             const now = Date.now() / 1000; // waktu sekarang dalam detik
             if(decoded.exp > now){
-              // Token masih valid, langsung redirect
                 navigate("/home");
             }else{
-              // Token expired, hapus
                 localStorage.removeItem("token");
             }
         }catch (e) {
-        // Kalau token tidak valid, hapus juga
             localStorage.removeItem("token");
         }
     }
