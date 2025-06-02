@@ -55,7 +55,17 @@ export default function Navbar() {
     };
 
 const renderSearchResults = () => {
-    if (!showResults || results.length === 0) return null;
+    if (!showResults || query.trim() === "") {
+        return null;
+    }
+
+    if (results.length === 0) {
+        return (
+            <ul className={styles.searchResults}>
+                <li className={styles.resultItem}>No Result Found!</li>
+            </ul>
+        );
+    }
 
     return (
         <ul className={styles.searchResults}>

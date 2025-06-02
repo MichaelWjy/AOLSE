@@ -13,9 +13,8 @@ const ChatRoom = ({ userId, receiverId }) => {
   const socketRef = useRef(null);
 
   const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('userRole'); // contoh ambil role dari localStorage
+  const userRole = localStorage.getItem('userRole');
 
-  // 🚨 Jika token tidak tersedia
   useEffect(() => {
     if (!token) {
       alert('Token missing. Please log in again.');
@@ -23,7 +22,6 @@ const ChatRoom = ({ userId, receiverId }) => {
     }
   }, [token]);
 
-  // 1. Dapatkan atau buat roomId dari backend
   useEffect(() => {
     console.log("userId:", userId);
   console.log("receiverId:", receiverId);
@@ -38,8 +36,8 @@ const ChatRoom = ({ userId, receiverId }) => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            buyer_id: userRole === 'buyer' ? userId : receiverId,
-            seller_id: userRole === 'seller' ? userId : receiverId,
+            buyer_id: userRole === 'buyer' ? Number(userId) : Number(receiverId),
+            seller_id: userRole === 'seller' ? Number(userId) : Number(receiverId),
           }),
         });
         if (!res.ok) throw new Error('Failed to get or create chat room');
@@ -53,7 +51,6 @@ const ChatRoom = ({ userId, receiverId }) => {
     getOrCreateRoom();
   }, [userId, receiverId, token, userRole]);
 
-  // 2. Fetch messages menggunakan roomId
   useEffect(() => {
     if (!roomId || !token) return;
 
@@ -73,7 +70,6 @@ const ChatRoom = ({ userId, receiverId }) => {
     fetchMessages();
   }, [roomId, token]);
 
-  // 3. Fetch info penerima chat menggunakan roomId
   useEffect(() => {
     if (!roomId || !token) return;
 
@@ -93,7 +89,6 @@ const ChatRoom = ({ userId, receiverId }) => {
     fetchReceiverInfo();
   }, [roomId, token]);
 
-  // 4. Setup koneksi socket dan join room menggunakan roomId
   useEffect(() => {
     if (!roomId || !token) return;
 
@@ -112,12 +107,11 @@ const ChatRoom = ({ userId, receiverId }) => {
     };
   }, [roomId, token]);
 
-  // 5. Fungsi kirim pesan
   const sendMessage = () => {
     if (input.trim() && socketRef.current && roomId) {
       const messagePayload = {
         chat_room_id: roomId,
-        sender_role: userRole, // 'buyer' atau 'seller'
+        sender_role: userRole, 
         sender_id: userId,
         content: input.trim(),
         file_url: null,
@@ -125,14 +119,11 @@ const ChatRoom = ({ userId, receiverId }) => {
         file_size: null,
       };
 
-      // Emit pesan ke socket server
       socketRef.current.emit('sendMessage', messagePayload);
 
-      // Update UI lokal
       setMessages((prev) => [...prev, messagePayload]);
       setInput('');
 
-      // Simpan ke database lewat API
       fetch("https://aolse-production.up.railway.app/api/chat/message", {
         method: "POST",
         headers: {
@@ -146,7 +137,6 @@ const ChatRoom = ({ userId, receiverId }) => {
     }
   };
 
-  // Scroll otomatis ke bawah saat ada pesan baru
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
