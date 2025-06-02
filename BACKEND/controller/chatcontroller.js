@@ -9,7 +9,8 @@ const pool = new Pool({
 
 exports.createOrGetRoom = async (req, res) => {
   try {
-      const { buyer_id, seller_id } = req.body;
+      const buyer_id = Number(req.body.buyer_id);
+      const seller_id = Number(req.body.seller_id);
       console.log("createOrGetRoom req.body:", req.body);
       console.log("Buyer ID:", buyer_id, "Seller ID:", seller_id);
 
@@ -20,7 +21,6 @@ exports.createOrGetRoom = async (req, res) => {
 // if (buyer_id === seller_id) {
 //   return res.status(400).json({ error: "buyer_id and seller_id cannot be the same" });
 // }
-    // Cek buyer_id ada di tabel customer
     const buyerCheck = await pool.query(
       `SELECT customerid FROM customer WHERE customerid = $1`,
       [buyer_id]
@@ -32,7 +32,6 @@ exports.createOrGetRoom = async (req, res) => {
     }
       console.log("Buyer ID:", buyer_id, "Seller ID:", seller_id);
 
-    // Cek seller_id ada di tabel company (atau seller sesuai skema kamu)
     const sellerCheck = await pool.query(
       `SELECT companyid FROM company WHERE companyid = $1`,
       [seller_id]
@@ -44,7 +43,6 @@ exports.createOrGetRoom = async (req, res) => {
     }
       console.log("Buyer ID:", buyer_id, "Seller ID:", seller_id);
 
-    // Cari dulu room
     const result = await pool.query(
       `SELECT * FROM chat_rooms WHERE buyer_id = $1 AND seller_id = $2`,
       [buyer_id, seller_id]
@@ -54,7 +52,6 @@ exports.createOrGetRoom = async (req, res) => {
     if (result.rows.length > 0) return res.json(result.rows[0]);
       console.log("Buyer ID:", buyer_id, "Seller ID:", seller_id);
 
-    // Insert room baru
     const insert = await pool.query(
       `INSERT INTO chat_rooms (buyer_id, seller_id) VALUES ($1, $2) RETURNING *`,
       [buyer_id, seller_id]
@@ -89,7 +86,6 @@ exports.sendMessage = async (req, res, io) => {
         [chat_room_id]
     );
 
-    // Emit pesan ke Socket.IO room yang sesuai
     const message = result.rows[0];
     io.to(`room_${chat_room_id}`).emit("receiveMessage", message);
 
@@ -110,7 +106,7 @@ exports.getMessages = async (req, res) => {
 exports.getInfo = async (req, res) => {
     const roomId = req.params.id;
     console.log("req.params:", req.params);
-    const user = req.user; // hasil dari middleware verifyToken
+    const user = req.user; 
     console.log("req.user:", user);
     console.log("roomId:", roomId);
 
