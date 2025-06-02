@@ -38,40 +38,46 @@ useEffect(() => {
     }
   }, [user]);
 
-  async function handleMessage() {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    const userId = localStorage.getItem("userID"); // pastikan ini diset saat login
-    console.log("token:",token);
-    console.log("role:",role);
-    console.log("id:",userId);
-    if (!token || !userId || !user) {
-      console.error("Missing required data");
-      return;
-    }
+async function handleMessage() {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  const myId = localStorage.getItem("userID");
 
-    const payload = role === "seller"
-      ? { seller_id: userId, buyer_id: user.id }
-      : { buyer_id: userId, seller_id: user.id };
-
-    try {
-      const res = await fetch("https://aolse-production.up.railway.app/api/chat/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) throw new Error(`Failed to start chat. Status: ${res.status}`);
-
-      const room = await res.json();
-      navigate(`/chat/${room.id}`); // ganti `room.id` sesuai dengan struktur response
-    } catch (err) {
-      console.error("Error starting chat room:", err);
-    }
+  if (!token || !myId || !user) {
+    console.error("Missing required data");
+    return;
   }
+
+  const otherUserId = user.CustomerID || user.CompanyID || user.id;
+
+  if (!otherUserId) {
+    console.error("Target user ID not found.");
+    return;
+  }
+
+  const payload =
+    role === "seller"
+      ? { seller_id: myId, buyer_id: otherUserId }
+      : { buyer_id: myId, seller_id: otherUserId };
+
+  try {
+    const res = await fetch("https://aolse-production.up.railway.app/api/chat/start", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error(`Failed to start chat. Status: ${res.status}`);
+
+    const chatRoom = await res.json();
+    navigate(`/chat/${myId}/${otherUserId}`);
+  } catch (err) {
+    console.error("Error starting chat room:", err);
+  }
+}
 
   if (!user) {
     return (
