@@ -20,7 +20,8 @@ async function sendResetEmail(email, token) {
     },
     });
 
-    const resetLink = `https://bizbridge-plum.vercel.app/reset-password/${token}`;
+    const resetLink = `https://bizbridge-plum.vercel.app/#/reset-password/${token}`;
+
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
