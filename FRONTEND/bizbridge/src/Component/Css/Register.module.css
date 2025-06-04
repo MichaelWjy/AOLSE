@@ -72,6 +72,10 @@ input[type="checkbox"] {
 
 }
 
+.sectorSelect{
+    width: 445px;
+}
+
 .tnc {
     display: flex;
     flex-direction: row;
