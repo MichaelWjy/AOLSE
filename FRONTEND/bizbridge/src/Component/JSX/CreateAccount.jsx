@@ -101,7 +101,7 @@ export default function Register() {
                     </div>
                     {role === "seller" && (
                         <>
-                            <div className={styles.sectorSelect}>
+                            <div className={styles.sectorSelectSeller}>
                                 <Select
                                     isMulti
                                     options={sectors.map((s) => ({
