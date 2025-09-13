@@ -16,7 +16,7 @@ export default function Forgot() {
         }
 
         try {
-            const response = await fetch("https://aolse-production.up.railway.app/api/forgotPass/request-reset-password", {
+            const response = await fetch("https://aolse-wheat.vercel.app/api/forgotPass/request-reset-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),

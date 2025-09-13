@@ -11,25 +11,25 @@ export default function CustomerProfile() {
   const [description, setDescription] = useState("");
   const [sectors, setSectors] = useState([]);
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  fetch(`https://aolse-production.up.railway.app/api/customer/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, 
-    },
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      return res.json();
+    fetch(`https://aolse-wheat.vercel.app/api/customer/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .then((data) => setUser(data))
-    .catch((err) => {
-      console.error("Failed to fetch customer profile:", err);
-    });
-}, [id]);
+      .then((res) => {
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        return res.json();
+      })
+      .then((data) => setUser(data))
+      .catch((err) => {
+        console.error("Failed to fetch customer profile:", err);
+      });
+  }, [id]);
 
   useEffect(() => {
     if (user) {
@@ -38,46 +38,46 @@ useEffect(() => {
     }
   }, [user]);
 
-async function handleMessage() {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-  const myId = localStorage.getItem("userID");
+  async function handleMessage() {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    const myId = localStorage.getItem("userID");
 
-  if (!token || !myId || !user) {
-    console.error("Missing required data");
-    return;
+    if (!token || !myId || !user) {
+      console.error("Missing required data");
+      return;
+    }
+
+    const otherUserId = user.CustomerID || user.CompanyID || user.id;
+
+    if (!otherUserId) {
+      console.error("Target user ID not found.");
+      return;
+    }
+
+    const payload =
+      role === "seller"
+        ? { seller_id: myId, buyer_id: otherUserId }
+        : { buyer_id: myId, seller_id: otherUserId };
+
+    try {
+      const res = await fetch("https://aolse-wheat.vercel.app/api/chat/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`Failed to start chat. Status: ${res.status}`);
+
+      const chatRoom = await res.json();
+      navigate(`/chat/${myId}/${otherUserId}`);
+    } catch (err) {
+      console.error("Error starting chat room:", err);
+    }
   }
-
-  const otherUserId = user.CustomerID || user.CompanyID || user.id;
-
-  if (!otherUserId) {
-    console.error("Target user ID not found.");
-    return;
-  }
-
-  const payload =
-    role === "seller"
-      ? { seller_id: myId, buyer_id: otherUserId }
-      : { buyer_id: myId, seller_id: otherUserId };
-
-  try {
-    const res = await fetch("https://aolse-production.up.railway.app/api/chat/start", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) throw new Error(`Failed to start chat. Status: ${res.status}`);
-
-    const chatRoom = await res.json();
-    navigate(`/chat/${myId}/${otherUserId}`);
-  } catch (err) {
-    console.error("Error starting chat room:", err);
-  }
-}
 
   if (!user) {
     return (

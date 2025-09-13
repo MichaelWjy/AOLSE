@@ -24,12 +24,12 @@ const ChatRoom = ({ userId, receiverId }) => {
 
   useEffect(() => {
     console.log("userId:", userId);
-  console.log("receiverId:", receiverId);
+    console.log("receiverId:", receiverId);
     if (!userId || !receiverId || !token) return;
     if (!userId || !receiverId || !token || userId === receiverId) return;
     const getOrCreateRoom = async () => {
       try {
-        const res = await fetch('https://aolse-production.up.railway.app/api/chat/start', {
+        const res = await fetch('https://aolse-wheat.vercel.app/api/chat/start', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const ChatRoom = ({ userId, receiverId }) => {
 
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`https://aolse-production.up.railway.app/api/chat/room/${roomId}`, {
+        const res = await fetch(`https://aolse-wheat.vercel.app/api/chat/room/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error('Failed to fetch messages');
@@ -75,7 +75,7 @@ const ChatRoom = ({ userId, receiverId }) => {
 
     const fetchReceiverInfo = async () => {
       try {
-        const res = await fetch(`https://aolse-production.up.railway.app/api/chat/info/${roomId}`, {
+        const res = await fetch(`https://aolse-wheat.vercel.app/api/chat/info/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error('Failed to fetch receiver info');
@@ -92,7 +92,7 @@ const ChatRoom = ({ userId, receiverId }) => {
   useEffect(() => {
     if (!roomId || !token) return;
 
-    socketRef.current = io('https://aolse-production.up.railway.app', {
+    socketRef.current = io('https://aolse-wheat.vercel.app', {
       auth: { token },
     });
 
@@ -111,7 +111,7 @@ const ChatRoom = ({ userId, receiverId }) => {
     if (input.trim() && socketRef.current && roomId) {
       const messagePayload = {
         chat_room_id: roomId,
-        sender_role: userRole, 
+        sender_role: userRole,
         sender_id: userId,
         content: input.trim(),
         file_url: null,
@@ -124,7 +124,7 @@ const ChatRoom = ({ userId, receiverId }) => {
       setMessages((prev) => [...prev, messagePayload]);
       setInput('');
 
-      fetch("https://aolse-production.up.railway.app/api/chat/message", {
+      fetch("https://aolse-wheat.vercel.app/api/chat/message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
