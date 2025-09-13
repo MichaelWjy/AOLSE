@@ -18,7 +18,7 @@ export default function Navbar() {
 
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch("https://aolse-production.up.railway.app/api/search", {
+                const res = await fetch("https://aolse-wheat.vercel.app/api/search", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -38,10 +38,10 @@ export default function Navbar() {
 
         const delayDebounce = setTimeout(() => {
             fetchResults();
-        }, 300); 
+        }, 300);
 
         return () => clearTimeout(delayDebounce);
-    }, [query, role]); 
+    }, [query, role]);
 
 
     const handleResultClick = (id) => {
@@ -54,35 +54,35 @@ export default function Navbar() {
         }
     };
 
-const renderSearchResults = () => {
-    if (!showResults || query.trim() === "") {
-        return null;
-    }
+    const renderSearchResults = () => {
+        if (!showResults || query.trim() === "") {
+            return null;
+        }
 
-    if (results.length === 0) {
+        if (results.length === 0) {
+            return (
+                <ul className={styles.searchResults}>
+                    <li className={styles.resultItem}>No Result Found!</li>
+                </ul>
+            );
+        }
+
         return (
             <ul className={styles.searchResults}>
-                <li className={styles.resultItem}>No Result Found!</li>
+                {results.map((item) => (
+                    <li key={item.id} onMouseDown={() => handleResultClick(item.id)} className={styles.resultItem}>
+                        <img src={item.photo || "/default-profile.png"} alt="profile" className={styles.resultPhoto} />
+                        <div className={styles.resultInfo}>
+                            <div className={styles.resultName}>{item.name}</div>
+                            <div className={styles.resultSector}>
+                                {Array.isArray(item.sector) ? item.sector.join(", ") : item.sector}
+                            </div>
+                        </div>
+                    </li>
+                ))}
             </ul>
         );
-    }
-
-    return (
-        <ul className={styles.searchResults}>
-            {results.map((item) => (
-                <li key={item.id} onMouseDown={() => handleResultClick(item.id)} className={styles.resultItem}>
-                    <img src={item.photo || "/default-profile.png"} alt="profile" className={styles.resultPhoto} />
-                    <div className={styles.resultInfo}>
-                        <div className={styles.resultName}>{item.name}</div>
-                        <div className={styles.resultSector}>
-                            {Array.isArray(item.sector) ? item.sector.join(", ") : item.sector}
-                        </div>
-                    </div>
-                </li>
-            ))}
-        </ul>
-    );
-};
+    };
 
     return (
         <header className={styles.navbar}>

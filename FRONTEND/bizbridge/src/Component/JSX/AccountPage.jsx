@@ -23,7 +23,7 @@ export default function Account() {
     const fetchSectors = async () => {
       try {
         const response = await fetch(
-          "https://aolse-production.up.railway.app/api/sector/sectors"
+          "https://aolse-wheat.vercel.app/api/sector/sectors"
         );
         const data = await response.json();
         setAllSectors(data);
@@ -34,7 +34,7 @@ export default function Account() {
 
     fetchSectors();
 
-    fetch("https://aolse-production.up.railway.app/api/profile/check-profile", {
+    fetch("https://aolse-wheat.vercel.app/api/profile/check-profile", {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     })
@@ -55,7 +55,7 @@ export default function Account() {
 
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
-    await fetch("https://aolse-production.up.railway.app/api/auth/logout", {
+    await fetch("https://aolse-wheat.vercel.app/api/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function Account() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://aolse-production.up.railway.app/api/profile/${user.id}`, {
+      const res = await fetch(`https://aolse-wheat.vercel.app/api/profile/${user.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function Account() {
         formData.append("photo", photoFile);
 
         const res = await fetch(
-          `https://aolse-production.up.railway.app/api/profile/photo/${user.id}`,
+          `https://aolse-wheat.vercel.app/api/profile/photo/${user.id}`,
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -137,9 +137,8 @@ export default function Account() {
             <div className={styles.greenBackground}></div>
             <div className={styles.pfpWrapper}>
               <label
-                className={`${styles.pfpHoverArea} ${
-                  editing ? styles.editing : ""
-                }`}
+                className={`${styles.pfpHoverArea} ${editing ? styles.editing : ""
+                  }`}
               >
                 <img
                   src={user.photoURL || "/defaultpfp.jpg"}
@@ -227,9 +226,8 @@ export default function Account() {
           <div className={styles.profileHeaderSeller}>
             <div className={styles.pfpWrapperSeller}>
               <label
-                className={`${styles.pfpHoverAreaSeller} ${
-                  editing ? styles.editing : ""
-                }`}
+                className={`${styles.pfpHoverAreaSeller} ${editing ? styles.editing : ""
+                  }`}
               >
                 <img
                   src={user.photoURL || "/defaultpfp.jpg"}

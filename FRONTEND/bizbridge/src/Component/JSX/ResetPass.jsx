@@ -8,7 +8,7 @@ export default function Reset() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
- 
+
     const { token } = useParams();
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
@@ -26,7 +26,7 @@ export default function Reset() {
         }
 
         try {
-            const res = await fetch("https://aolse-production.up.railway.app/api/forgotPass/reset-password", {
+            const res = await fetch("https://aolse-wheat.vercel.app/api/forgotPass/reset-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export default function Reset() {
                 setSuccess(data.message);
                 setTimeout(() => {
                     navigate("/");
-                }, 3001); 
+                }, 3001);
             } else {
                 setError(data.error || "Failed to reset password");
             }
